@@ -1,32 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout('layouts/boilerplate') %>
+<h1>All Campground</h1>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Campground </title>
-</head>
+<div>
+  <a href="/campgrounds/new"> Add Campground</a>
+</div>
 
-<body>
-    <h1>All Campground</h1>
-
-    <div>
-        <a href="/campgrounds/new"> Add Campground</a>
+<% for (let campground of campgrounds) {%>
+<div class="card mb-3">
+  <div class="row">
+    <div class="col-md-4">
+      <img src="<%= campground.image %>" class="img-fluid" alt="" />
     </div>
 
-    <ul>
-        <% for (let campground of campgrounds) {%>
-            <li>
-                <a href="campgrounds/<%= campground._id %>">
-                    <!-- why href = 'campgrounds/____' ???
-                    BECAUEE OF THIS >>> app.get('/campgrounds/:id' , async( req , res ) => {
-                    HREF DOS A GET REQUEST TO campground/id ... and it will be handeled by express rout    -->
-                    <%= campground.title    %>
-                </a>
-            </li>
-        <% }%>
-    </ul>
-</body>
-
-</html>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%= campground.title %></h5>
+        <p class="card-text"><%= campground.description %></p>
+        <p class="card-text">
+            <small class="text-muted"> <%= campground.location %></small>
+        </p>
+        <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">View <%= campground.title %></a>
+      </div>
+    </div>
+  </div>
+</div>
+<% }%>

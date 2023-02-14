@@ -24,10 +24,15 @@ const seedDB = async () => {
     for(let i = 0 ; i < 50 ; i++)
     {
         const random1000 = Math.floor(Math.random() * 1000);
+        
         const camp = new Campground({
-            location : `${cities[random1000].city}, ${cities[random1000].state}` , 
-            title : `${sample(descriptors)}  ${sample(places)}` 
+            location: `${cities[random1000].city}, ${cities[random1000].state}`,
+            title: `${sample(descriptors)}  ${sample(places)}`,
+            image: `https://source.unsplash.com/collection/483251`,
+            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam ad molestias recusandae iure accusamus, inventore repellendus voluptate non ullam. Nihil iure repudiandae modi harum quos corrupti sapiente ea ullam itaque.",
+            price: Math.floor(Math.random() * 20) + 10
         });
+
         await camp.save() ;
     }
 };
@@ -35,3 +40,5 @@ const seedDB = async () => {
 seedDB().then(() =>{
     mongoose.connection.close() ;
 }) ;
+
+
