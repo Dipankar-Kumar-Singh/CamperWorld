@@ -61,7 +61,6 @@ app.use(methodOverride('_method'));
 // ERROR HANDLING :
 // CathAsync is util file .. A JS PATTEN [ EXPRESS ERRROR HANDLING PATTERN ]
 
-
 const validateCampground = (req, res, next) => {
     // SERVER SIDE VALIDATION 
     // campgroundSchema is comming from validation Schema.js 
@@ -79,18 +78,6 @@ app.get("/", (req, res) => {
     res.render("home");
 })
 
-app.get("/makecampground", catchAsync(async (req, res) => {
-    // res.render("home") ;
-    const camp = new Campground({
-        title: "My Backyard",
-        description: "Cheap Camping"
-    });
-
-    await camp.save();
-    res.send(camp);
-}));
-
-
 app.get('/campgrounds', catchAsync(async (req, res) => {
     const campgrounds = await Campground.find({});
     res.render('campgrounds/index', { campgrounds });
@@ -104,40 +91,28 @@ app.get("/campgrounds/new", (req, res) => {
 // VALIDATE CAMPGROUND --> WORKS AS Middleware .. 
 // note : we don't need to call validateCampground anywhere inside ... it will be automatically called .
 app.post("/campgrounds", validateCampground ,catchAsync(async (req, res) => {
-
     // POSTING IT ... [ Adding new Campground ..]
     const campground = new Campground(req.body.campground);
     await campground.save();
     res.redirect(`/campgrounds/${campground._id}`);
 }));
 
-
 app.get('/campgrounds/:id', catchAsync(async (req, res) => {
-    // can't directly accesss id ... [ NO ]
-    // so use .. Request.params.id ; 
+    // can't directly accesss id ... [ NO ]  // so use .. Request.params.id ; 
     const campground = await Campground.findById(req.params.id);
     res.render('campgrounds/show', { campground });
 }));
 
-
 app.get("/campgrounds/:id/edit", catchAsync(async (req, res) => {
-    // res.send("Kuch toh mila ") ;
     const campground = await Campground.findById(req.params.id);
     res.render("campgrounds/edit", { campground });
 }))
-
 
 // validateCampground --> Middleware .. it will run automatically to validate data at server side 
 // Happing using 🔥Mehtod Oveeride🔥 --> Normamly --> FROM --> GET / POST only two types allowed . 
 app.put("/campgrounds/:id" , validateCampground , catchAsync(async (req, res) => {
     const id = req.params.id;
-
-    // console.log(id);  // ✅ Data Comming .. 
-    // console.log(req.body.campground) ; // ✅ Data Comming .. 
-
     const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
-
-    // Mistake : $ usee karna tha .. and I was using % ... 
     res.redirect(`/campgrounds/${campground._id}`);
 }))
 
