@@ -3,14 +3,15 @@
 <div class="row">
   <h1 class="text-center">New Campground</h1>
   <div class="col-6 offset-3">
-    <form action="/campgrounds" method="POST">
+    <!-- take validdtion part from HTML --- BootStrp -- thus NoValidate -->
+    <form action="/campgrounds" method="POST" novalidate class="needs-validation">
       <div class = "mb-3">
         <label class="form-lable" for="title"> Title </label>
-        <input class="form-control" type="text" id="title" name="campground[title]" />
+        <input class="form-control" type="text" id="title" name="campground[title]" required/>
       </div>
       <div class = "mb-3">
         <label class="form-lable" for="image"> Image URL </label>
-        <input class="form-control" type="text" id="image" name="campground[image]" />
+        <input class="form-control" type="text" id="image" name="campground[image]" required/>
       </div>
       <div class = "mb-3">
         <label class="form-lable" for="description"> Description </label>
@@ -21,14 +22,14 @@
         <label class="form-lable" for="price"> Price </label>
         <div class="input-group mb-3">
             <span class="input-group-text">$</span>
-            <input type="text" class="form-control" id="price">
+            <input type="text" class="form-control" id="price" name="campground[price]" required>
             <span class="input-group-text">.00</span>
           </div>
       </div>
 
       <div class = "mb-3">
         <label class="form-lable" for="location"> Location </label>
-        <input class="form-control" type="text" id="location" name="campground[location]" />
+        <input class="form-control" type="text" id="location" name="campground[location]" required/>
       </div>
 
       <button class="btn btn-success">Add Campground</button>
@@ -37,3 +38,5 @@
     <a href="/campgrounds"> All Campground </a>
   </div>
 </div>
+
+

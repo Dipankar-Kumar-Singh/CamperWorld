@@ -1,26 +1,30 @@
-const express = require("express") ;
-const app = express() ;
-const path = require("path") ;
+const express = require("express");
+const app = express();
+const path = require("path");
+const catchAsync = require("./utils/catchAsync");
+const ExpressError = require("./utils/ExpressError") ;
 const mongoose = require('mongoose');
 const Campground = require("./models/campground");
-const methodOverride = require('method-override') ;
-const ejsMate = require("ejs-mate") ; 
+const methodOverride = require('method-override');
+const ejsMate = require("ejs-mate");
+const Joi = require("joi");
+const { campgroundSchema } = require("./validationSchemas");
 
-mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp' );
+mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp');
 mongoose.set('strictQuery', false);
 
-const db = mongoose.connection ;
-db.on('error' , console.error.bind(console, "connection error : ")) ;
-db.once('open' , () => {
-    console.log("Database Conncected") ;
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, "connection error : "));
+db.once('open', () => {
+    console.log("Database Conncected");
 });
 
-app.engine("ejs" , ejsMate) ;
-app.set('view engine' , 'ejs') ;
-app.set("views" , path.join(__dirname , 'views')) ;
+app.engine("ejs", ejsMate);
+app.set('view engine', 'ejs');
+app.set("views", path.join(__dirname, 'views'));
 
-app.use(express.urlencoded({extended : true })) ;
-app.use(methodOverride('_method')) ;
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 
 
 /* -------------------------------------------------------------------------- */
@@ -54,78 +58,119 @@ app.use(methodOverride('_method')) ;
 // example [ in PUT req below ] : req.body.campground  [ NOT DIRECTLY I THINK , BODY PARSER REQED]
 
 
-app.get("/" , ( req , res) => {
-    res.render("home") ;
+// ERROR HANDLING :
+// CathAsync is util file .. A JS PATTEN [ EXPRESS ERRROR HANDLING PATTERN ]
+
+
+const validateCampground = (req, res, next) => {
+    // SERVER SIDE VALIDATION 
+    // campgroundSchema is comming from validation Schema.js 
+    const result = campgroundSchema.validate(req.body);
+    const { error } = result;
+    if (error) {
+        const msg = error.details.map(el => el.message).join(",");
+        throw new ExpressError(msg, 400);
+    }
+    else next() ; 
+    // very very IMP  : TO CALL NEXT() .. if this is going to be used as middleware 
+}
+
+app.get("/", (req, res) => {
+    res.render("home");
 })
 
-app.get("/makecampground" , async ( req , res) => {
+app.get("/makecampground", catchAsync(async (req, res) => {
     // res.render("home") ;
     const camp = new Campground({
-        title : "My Backyard" ,
-        description : "Cheap Camping"
-    }) ;
+        title: "My Backyard",
+        description: "Cheap Camping"
+    });
 
-    await camp.save() ;
-    res.send(camp) ;
+    await camp.save();
+    res.send(camp);
+}));
+
+
+app.get('/campgrounds', catchAsync(async (req, res) => {
+    const campgrounds = await Campground.find({});
+    res.render('campgrounds/index', { campgrounds });
+
+}));
+
+app.get("/campgrounds/new", (req, res) => {
+    res.render("campgrounds/new");
 });
 
+// VALIDATE CAMPGROUND --> WORKS AS Middleware .. 
+// note : we don't need to call validateCampground anywhere inside ... it will be automatically called .
+app.post("/campgrounds", validateCampground ,catchAsync(async (req, res) => {
 
-app.get('/campgrounds' , async (req , res) => {
-    const campgrounds = await Campground.find({}) ;
-    res.render('campgrounds/index', { campgrounds }) ;
-
-}) ;
-
-app.get("/campgrounds/new" , (req , res ) => {
-    res.render("campgrounds/new") ;
-});
-
-app.post("/campgrounds" , async ( req , res ) => {
-
-    const campground = new Campground(req.body.campground) ;
-    await campground.save() ;
-    // console.log(req.body.campground) ;
-
-    res.redirect(`/campgrounds/${campground._id}`) ;
-})
+    // POSTING IT ... [ Adding new Campground ..]
+    const campground = new Campground(req.body.campground);
+    await campground.save();
+    res.redirect(`/campgrounds/${campground._id}`);
+}));
 
 
-app.get('/campgrounds/:id' , async( req , res ) => {
+app.get('/campgrounds/:id', catchAsync(async (req, res) => {
     // can't directly accesss id ... [ NO ]
     // so use .. Request.params.id ; 
-    const campground = await Campground.findById(req.params.id) ;
-    res.render('campgrounds/show' , { campground }) ;
-});
+    const campground = await Campground.findById(req.params.id);
+    res.render('campgrounds/show', { campground });
+}));
 
 
-app.get("/campgrounds/:id/edit", async (req, res) => {
+app.get("/campgrounds/:id/edit", catchAsync(async (req, res) => {
     // res.send("Kuch toh mila ") ;
     const campground = await Campground.findById(req.params.id);
     res.render("campgrounds/edit", { campground });
-})
+}))
 
 
+// validateCampground --> Middleware .. it will run automatically to validate data at server side 
 // Happing using 🔥Mehtod Oveeride🔥 --> Normamly --> FROM --> GET / POST only two types allowed . 
-app.put("/campgrounds/:id" , async (req , res) => {
-    const id = req.params.id ;
+app.put("/campgrounds/:id" , validateCampground , catchAsync(async (req, res) => {
+    const id = req.params.id;
 
     // console.log(id);  // ✅ Data Comming .. 
     // console.log(req.body.campground) ; // ✅ Data Comming .. 
 
-    const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground }) ;
+    const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground });
 
     // Mistake : $ usee karna tha .. and I was using % ... 
-    res.redirect(`/campgrounds/${campground._id}`) ;
-})
+    res.redirect(`/campgrounds/${campground._id}`);
+}))
 
 // Happing using 🔥 Mehtod Oveeride🔥 --> Normamly --> FROM --> GET / POST only two types allowed . 
-app.delete('/campgrounds/:id' , async (req , res) => {
-    const { id } = req.params ;
-    await Campground.findByIdAndDelete(id) ;
-    res.redirect('/campgrounds') ;
+app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
+    const { id } = req.params;
+    await Campground.findByIdAndDelete(id);
+    res.redirect('/campgrounds');
+}))
+
+
+app.all("*" , (req , res , next ) => {
+    // passing this New Error to Next .. 
+    // ab agey jaha use hona hoga ess error ka [ depends on us .. we will use it ]
+    next(new ExpressError("Page not found" , 404 )) ;
+
 })
 
+// CUSTOM ERROR HANDLER >>
 
-app.listen(3000 , () => {
+app.use((error , req , res , next) => {
+    const { statusCode = 500  , message = "Something went wrong" } = error ;
+
+    // Because we are passing the error objdct in the render page .. 
+    // thus default message may not be there . 
+
+    if(!message) error.message = "SOMETHIG WENT WRONG !!!! " ;
+
+    res.status(statusCode) ;
+    res.render("error", { error }); // this error is not message .. it's EJS path ... f
+    // res.send(message) ;
+})
+
+app.listen(3000, () => {
     console.log("Server is Running on PORT 3000");
 })
