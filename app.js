@@ -137,7 +137,9 @@ app.get(
     "/campgrounds/:id",
     catchAsync(async (req, res) => {
         // can't directly accesss id ... [ NO ]  // so use .. Request.params.id ;
-        const campground = await Campground.findById(req.params.id);
+        const campground = await Campground.findById(req.params.id).populate('reviews');
+        // which properity to populate . --> reviews [ array ] 
+        console.log(campground);
         res.render("campgrounds/show", { campground });
     })
 );
