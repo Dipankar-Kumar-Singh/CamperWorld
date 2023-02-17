@@ -152,6 +152,19 @@ app.get(
     })
 );
 
+
+app.delete(
+    "/campgrounds/:id/reviews/:reviewId" , 
+    catchAsync( async (req , res ) => {
+        const { id , reviewId } = req.params ;
+        Campground.findByIdAndUpdate(id, {$pull : { reviews : reviewId}})
+        await Review.findByIdAndDelete(reviewId) ; 
+        
+        res.redirect(`/campgrounds/${id}`) ;
+
+    })
+);
+
 // validateCampground --> Middleware .. it will run automatically to validate data at server side
 // Happing using 🔥Mehtod Oveeride🔥 --> Normamly --> FROM --> GET / POST only two types allowed .
 app.put(

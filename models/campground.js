@@ -1,5 +1,7 @@
 const { default: mongoose } = require("mongoose");
+const Review = require("./review");
 const Schema = mongoose.Schema;
+
 
 const CampgroundSchema = new Schema({
     title: String,
@@ -13,6 +15,21 @@ const CampgroundSchema = new Schema({
             ref: "Review"
         }
     ]
+})
+
+// New thing to Learn ... After Deleting the Campground ... 
+// we want to remove data [ reviews ] related to it .. 
+// so using middleware .. findOneAndDele
+// doc ---> Object that is been deleted .. 
+CampgroundSchema.post('findOneAndDelete', async (doc) => {
+    // console.log(doc) ;
+    if (doc) {
+        await Review.remove({
+            _id: {
+                $in: doc.reviews
+            }
+        })
+    }
 })
 
 module.exports = mongoose.model('Campground', CampgroundSchema);
