@@ -7,11 +7,12 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const Joi = require("joi");
-const { campgroundSchema , reviewSchema } = require("./validationSchemas");
-const Review = require("./models/review") ;
+const { campgroundSchema, reviewSchema } = require("./validationSchemas");
+const Review = require("./models/review");
 const Campground = require("./models/campground");
 
-const campgrounds = require("./routes/campgrounds") ;
+const campgrounds = require("./routes/campgrounds");
+const reviews = require("./routes/reviews");
 
 mongoose.connect("mongodb://127.0.0.1:27017/yelp-camp");
 mongoose.set("strictQuery", false);
@@ -29,9 +30,48 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
+
 /* -------------------------------------------------------------------------- */
-/*                                  LEARNING                                  */
+/*                     LEARNING AT LAST : SEE THE COMMENTS                    */
 /* -------------------------------------------------------------------------- */
+
+app.get("/", (req, res) => {
+    res.render("home");
+});
+
+// IMPORTATN :: SPECIALLY [ REVIEWS ] ROUTS .. ID key sath bhi use kar saktey hai 
+app.use('/campgrounds', campgrounds);
+app.use('/campgrounds/:id/reviews', reviews);
+// BY DEFAULT >> EXPRESS ROUTE HANDLER >>> DON't Give this ID to reviews routes 
+// route file key andar --> no accesss of ID ... 
+// so .. go to reviews.js route file and add this line : 
+// const router = express.Router({mergeParams : true}) ;
+
+app.all("*", (req, res, next) => {
+    // passing this New Error to Next ..
+    // ab agey jaha use hona hoga ess error ka [ depends on us .. we will use it ]
+    next(new ExpressError("Page not found", 404));
+});
+
+// CUSTOM ERROR HANDLER >>
+
+app.use((error, req, res, next) => {
+    const { statusCode = 500, message = "Something went wrong" } = error;
+
+    // Because we are passing the error objdct in the render page ..
+    // thus default message may not be there .
+
+    if (!message) error.message = "SOMETHIG WENT WRONG !!!! ";
+    res.status(statusCode);
+    res.render("error", { error }); // this error is not message .. it's EJS path ... f
+    // res.send(message) ;
+});
+
+app.listen(3000, () => {
+    console.log("Server is Running on PORT 3000");
+});
+
+
 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  / forget  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 // Note : Always get/post path start from '/' symball ..
@@ -61,78 +101,3 @@ app.use(methodOverride("_method"));
 
 // ERROR HANDLING :
 // CathAsync is util file .. A JS PATTEN [ EXPRESS ERRROR HANDLING PATTERN ]
-
-
-const validateReview = (req , res , next) => {
-    
-    const { error } = reviewSchema.validate(req.body) ;
-    if (error) {
-        const msg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(msg, 400);
-    } else next();
-}
-
-app.get("/", (req, res) => {
-    res.render("home");
-});
-
-app.use('/campgrounds' , campgrounds) ;
-
-
-app.post(
-    "/campgrounds/:id/reviews",
-    validateReview ,
-    catchAsync(async (req, res) => { 
-        
-        const { id } = req.params ;
-        const campground = await Campground.findById(req.params.id) ;
-        const review = new Review(req.body.review) ;
-
-        console.log(review) ;
-
-        campground.reviews.push(review) ;
-        await review.save() ;
-        await campground.save() ;
-
-        res.redirect(`/campgrounds/${campground._id}`) ;
-
-    })
-);
-
-app.delete(
-    "/campgrounds/:id/reviews/:reviewId" , 
-    catchAsync( async (req , res ) => {
-        const { id , reviewId } = req.params ;
-        Campground.findByIdAndUpdate(id, {$pull : { reviews : reviewId}})
-        await Review.findByIdAndDelete(reviewId) ; 
-        
-        res.redirect(`/campgrounds/${id}`) ;
-
-    })
-);
-
-
-app.all("*", (req, res, next) => {
-    // passing this New Error to Next ..
-    // ab agey jaha use hona hoga ess error ka [ depends on us .. we will use it ]
-    next(new ExpressError("Page not found", 404));
-});
-
-// CUSTOM ERROR HANDLER >>
-
-app.use((error, req, res, next) => {
-    const { statusCode = 500, message = "Something went wrong" } = error;
-
-    // Because we are passing the error objdct in the render page ..
-    // thus default message may not be there .
-
-    if (!message) error.message = "SOMETHIG WENT WRONG !!!! ";
-
-    res.status(statusCode);
-    res.render("error", { error }); // this error is not message .. it's EJS path ... f
-    // res.send(message) ;
-});
-
-app.listen(3000, () => {
-    console.log("Server is Running on PORT 3000");
-});
