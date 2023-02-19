@@ -4,12 +4,14 @@ const path = require("path");
 const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
 const mongoose = require("mongoose");
-const Campground = require("./models/campground");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const Joi = require("joi");
 const { campgroundSchema , reviewSchema } = require("./validationSchemas");
 const Review = require("./models/review") ;
+const Campground = require("./models/campground");
+
+const campgrounds = require("./routes/campgrounds") ;
 
 mongoose.connect("mongodb://127.0.0.1:27017/yelp-camp");
 mongoose.set("strictQuery", false);
@@ -60,17 +62,6 @@ app.use(methodOverride("_method"));
 // ERROR HANDLING :
 // CathAsync is util file .. A JS PATTEN [ EXPRESS ERRROR HANDLING PATTERN ]
 
-const validateCampground = (req, res, next) => {
-    // SERVER SIDE VALIDATION
-    // campgroundSchema is comming from validation Schema.js
-    const result = campgroundSchema.validate(req.body);
-    const { error } = result;
-    if (error) {
-        const msg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(msg, 400);
-    } else next();
-    // very very IMP  : TO CALL NEXT() .. if this is going to be used as middleware
-};
 
 const validateReview = (req , res , next) => {
     
@@ -85,30 +76,8 @@ app.get("/", (req, res) => {
     res.render("home");
 });
 
-app.get(
-    "/campgrounds",
-    catchAsync(async (req, res) => {
-        const campgrounds = await Campground.find({});
-        res.render("campgrounds/index", { campgrounds });
-    })
-);
+app.use('/campgrounds' , campgrounds) ;
 
-app.get("/campgrounds/new", (req, res) => {
-    res.render("campgrounds/new");
-});
-
-// VALIDATE CAMPGROUND --> WORKS AS Middleware ..
-// note : we don't need to call validateCampground anywhere inside ... it will be automatically called .
-app.post(
-    "/campgrounds",
-    validateCampground,
-    catchAsync(async (req, res) => {
-        // POSTING IT ... [ Adding new Campground ..]
-        const campground = new Campground(req.body.campground);
-        await campground.save();
-        res.redirect(`/campgrounds/${campground._id}`);
-    })
-);
 
 app.post(
     "/campgrounds/:id/reviews",
@@ -122,9 +91,6 @@ app.post(
         console.log(review) ;
 
         campground.reviews.push(review) ;
-
-
-
         await review.save() ;
         await campground.save() ;
 
@@ -132,26 +98,6 @@ app.post(
 
     })
 );
-
-app.get(
-    "/campgrounds/:id",
-    catchAsync(async (req, res) => {
-        // can't directly accesss id ... [ NO ]  // so use .. Request.params.id ;
-        const campground = await Campground.findById(req.params.id).populate('reviews');
-        // which properity to populate . --> reviews [ array ] 
-        console.log(campground);
-        res.render("campgrounds/show", { campground });
-    })
-);
-
-app.get(
-    "/campgrounds/:id/edit",
-    catchAsync(async (req, res) => {
-        const campground = await Campground.findById(req.params.id);
-        res.render("campgrounds/edit", { campground });
-    })
-);
-
 
 app.delete(
     "/campgrounds/:id/reviews/:reviewId" , 
@@ -165,29 +111,6 @@ app.delete(
     })
 );
 
-// validateCampground --> Middleware .. it will run automatically to validate data at server side
-// Happing using 🔥Mehtod Oveeride🔥 --> Normamly --> FROM --> GET / POST only two types allowed .
-app.put(
-    "/campgrounds/:id",
-    validateCampground,
-    catchAsync(async (req, res) => {
-        const id = req.params.id;
-        const campground = await Campground.findByIdAndUpdate(id, {
-            ...req.body.campground,
-        });
-        res.redirect(`/campgrounds/${campground._id}`);
-    })
-);
-
-// Happing using 🔥 Mehtod Oveeride🔥 --> Normamly --> FROM --> GET / POST only two types allowed .
-app.delete(
-    "/campgrounds/:id",
-    catchAsync(async (req, res) => {
-        const { id } = req.params;
-        await Campground.findByIdAndDelete(id);
-        res.redirect("/campgrounds");
-    })
-);
 
 app.all("*", (req, res, next) => {
     // passing this New Error to Next ..
