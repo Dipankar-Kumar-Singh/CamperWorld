@@ -1,9 +1,10 @@
 const express = require("express");
-const router = express.Router() ;
+const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
 const ExpressError = require("../utils/ExpressError");
 const Campground = require("../models/campground");
-const { campgroundSchema  } = require("../validationSchemas");
+const { campgroundSchema } = require("../validationSchemas");
+const campground = require("../models/campground");
 
 // EVERY THING IN HERE IS --> AFTER : "/campgrounds", / this file paths 
 
@@ -41,6 +42,7 @@ router.post(
         // POSTING IT ... [ Adding new Campground ..]
         const campground = new Campground(req.body.campground);
         await campground.save();
+        req.flash('success', 'successfully made a new campground');
         res.redirect(`/campgrounds/${campground._id}`);
     })
 );
@@ -53,6 +55,12 @@ router.get(
         const campground = await Campground.findById(req.params.id).populate('reviews');
         // which properity to populate . --> reviews [ array ] 
         console.log(campground);
+        
+        if(!campground){
+            req.flash('error' , 'could not find campground') ;
+            return res.redirect("/campgrounds")
+        }
+
         res.render("campgrounds/show", { campground });
     })
 );
@@ -61,6 +69,11 @@ router.get(
     "/:id/edit",
     catchAsync(async (req, res) => {
         const campground = await Campground.findById(req.params.id);
+        if(!campground){
+            req.flash('error' , 'could not find campground') ;
+            return res.redirect("/campgrounds")
+        }
+        
         res.render("campgrounds/edit", { campground });
     })
 );
@@ -76,9 +89,11 @@ router.put(
         const campground = await Campground.findByIdAndUpdate(id, {
             ...req.body.campground,
         });
+        req.flash('success' , 'successfully updated the campground') ;
         res.redirect(`/campgrounds/${campground._id}`);
     })
 );
+
 
 // Happing using 🔥 Mehtod Oveeride🔥 --> Normamly --> FROM --> GET / POST only two types allowed .
 router.delete(
@@ -86,8 +101,9 @@ router.delete(
     catchAsync(async (req, res) => {
         const { id } = req.params;
         await Campground.findByIdAndDelete(id);
+        req.flash('success' , 'successfully deleted the campground') ;
         res.redirect("/campgrounds");
     })
 );
 
-module.exports = router ;
+module.exports = router;

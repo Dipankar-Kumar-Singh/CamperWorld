@@ -1,7 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const Review = require("./review");
 const Schema = mongoose.Schema;
-
+mongoose.set('strictQuery', false);
 
 const CampgroundSchema = new Schema({
     title: String,
