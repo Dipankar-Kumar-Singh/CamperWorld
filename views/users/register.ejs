@@ -1,0 +1,25 @@
+<% layout('layouts/boilerplate') %>
+    <!-- <form action="/register" method="POST" novalidate class="needs-validation"></form> -->
+
+    <div class="row">
+        <h1 class="text-center">Register</h1>
+        <div class="col-6 offset-3">
+            <!-- take validdtion part from HTML --- BootStrp -- thus NoValidate -->
+            <form action="/register" method="POST" novalidate class="needs-validation">
+            <div class="mb-3">
+                <label class="form-lable" for="username"> username </label>
+                <input class="form-control" type="text" id="username" name="username" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-lable" for="email"> email </label>
+                <input class="form-control" type="email" id="email" name="email" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-lable" for="password"> password </label>
+                <input class="form-control" type="password" id="password" name="password" required />
+            </div>
+
+            <button class="btn btn-success"> Register </button>
+            </form>
+        </div>
+    </div>

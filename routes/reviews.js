@@ -7,6 +7,7 @@ const Campground = require("../models/campground");
 const catchAsync = require("../utils/catchAsync");
 const ExpressError = require("../utils/ExpressError");
 const { reviewSchema  } = require("../validationSchemas");
+const { isLoggedIn } = require("../middleware");
 
 const validateReview = (req , res , next) => {
     
