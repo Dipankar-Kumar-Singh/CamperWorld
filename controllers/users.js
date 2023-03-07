@@ -32,7 +32,6 @@ module.exports.login = (req, res) => {
     // will not work ... session is not persistnat 
     const redirectUrl = req.session.returnTo || '/campgrounds';
     delete req.session.returnTo;
-    //////////////////////////////////////////////
     res.redirect(redirectUrl);
 
 }
