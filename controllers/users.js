@@ -31,6 +31,8 @@ module.exports.login = (req, res) => {
     req.flash("success", "wlecome back");
     // will not work ... session is not persistnat 
     const redirectUrl = req.session.returnTo || '/campgrounds';
+    console.dir(req.session) ;
+    // console.dir(req.session) ;
     delete req.session.returnTo;
     res.redirect(redirectUrl);
 

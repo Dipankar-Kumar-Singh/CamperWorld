@@ -4,10 +4,12 @@ const isLoggedIn = function (req, res, next) {
     if (!req.isAuthenticated()) {
         req.session.returnTo = req.originalUrl ;
         req.flash('error', 'Please Login First');
-        return res.redirect('/login') ;
-        return next() ;
+        console.dir(req.session) ;
+        res.redirect('/login') ;
     }   
-    return next();
+    else{
+        next();
+    }
 }
 
 const validateCampground = (req, res, next) => {
