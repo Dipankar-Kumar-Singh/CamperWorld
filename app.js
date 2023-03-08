@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
@@ -21,7 +20,6 @@ const reviewsRoutes = require("./routes/reviews");
 /*                                  DATABASE                                  */
 /* -------------------------------------------------------------------------- */
 const { User } = require("./models/user");
-// const { authenticate } = require("./models/review");
 
 mongoose.connect("mongodb://127.0.0.1:27017/yelp-camp");
 mongoose.set("strictQuery", false);

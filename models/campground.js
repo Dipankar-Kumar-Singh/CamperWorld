@@ -30,7 +30,7 @@ const CampgroundSchema = new Schema({
 },opts)
 
 CampgroundSchema.virtual('properties.popUpMarkup').get(function () {
-    return `<a href = "/campgrounds/${this._id}"> ${this.title}  </a>` ;
+    return `<a href = "/campgrounds/${this._id}" class="btn">      ${this.title}   </a>` ;
 });
 
 // New thing to Learn ... After Deleting the Campground ... 
