@@ -2,7 +2,7 @@
   <link rel="stylesheet" href="/stylesheets/stars.css" />
   <link rel="stylesheet" href="/stylesheets/campground/show.css">
 
-  <div class="row">
+  <div class="row ">
     <div class="col-6">
 
       <div class="card">
@@ -25,14 +25,11 @@
 
     <div class="col-6">
 
-      <!-- <div class="col-4"> -->
         <div class="map-container">
           <div id="map"></div>
         </div>
-      <!-- </div> -->
 
-      <!-- <div id="map"></div> -->
-      <h2>Leave A Review</h2>
+      <h2 class="fw-bold mt-4">Leave a review</h2>
       <form class="needs-validation" action="/campgrounds/<%= campground._id %>/reviews" method="POST" novalidate>
         <div class="mb-3">
           <fieldset class="starability-checkmark">
