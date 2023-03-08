@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Campground = require("../models/campground");
+// const cities = require('./cities');
 
 const DESCRIPTION_OF_LOCATION = `Welcome to our outdoor fun location! We are delighted to offer you a unique and exciting experience surrounded by nature. Our location boasts a variety of outdoor activities that are perfect for families, groups, and individuals looking for an adventure.
 Explore our lush hiking trails and immerse yourself in the natural beauty of the surrounding landscape. Take in stunning views of the mountains, rivers, and forests as you hike through our well-marked trails. For thrill-seekers, we offer exciting zip-lining adventures that will have you soaring through the air and enjoying a bird's eye view of the area.
@@ -9,8 +10,9 @@ const { places, descriptors } = require('./seedHelpers');
 
 const MY_ACCESS_TOKEN = 'pk.eyJ1IjoidGVhLWRldiIsImEiOiJjbGV4b2VxcmsybHl4M3VydjY3NWNhMjl3In0.fNaTP9mskssQg4uEbTBpYw';
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
-const { indianCitiesData } = require('./Data/indianCities');
-const cities = indianCitiesData;
+const { worldCities } = require('./Data/citiesworld');
+const cities = worldCities;
+
 const geoCoder = mbxGeocoding({ accessToken: MY_ACCESS_TOKEN });
 
 mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp');
@@ -32,7 +34,7 @@ const seedDB = async () => {
 
     for (let i = 0; i < 500; i++) {
         const random1000 = Math.floor(Math.random() * 1000);
-        const LOCATION = `${cities[random1000].name}, ${cities[random1000].state}`;
+        const LOCATION = `${cities[random1000].name}, ${cities[random1000].state_name}`;
 
         const geoData = await geoCoder.forwardGeocode({
             query: LOCATION,
@@ -44,7 +46,7 @@ const seedDB = async () => {
             title: `${sample(descriptors)}  ${sample(places)}`,
             image: `https://source.unsplash.com/collection/483251?sig=${random1000}`,
             description: DESCRIPTION_OF_LOCATION ,
-            price: Math.floor(Math.random() * 20) + 10
+            price: Math.floor(Math.random() * 100000) + 10
         });
 
         camp.geometry = geoData.body.features[0].geometry;

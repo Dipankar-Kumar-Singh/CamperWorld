@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Campground = require("../models/campground");
-const cities = require('./cities');
+const cities = require('./Data/cities');
 const { places , descriptors } = require('./seedHelpers');
 
 const MY_ACCESS_TOKEN = 'pk.eyJ1IjoidGVhLWRldiIsImEiOiJjbGV4b2VxcmsybHl4M3VydjY3NWNhMjl3In0.fNaTP9mskssQg4uEbTBpYw';
