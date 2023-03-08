@@ -6,15 +6,20 @@
     <div class="col-6">
 
       <div class="card">
-        <img src="<%= campground.image %>" class="card-img-top" alt="..." />
+        <div class="containerIMG">
+          <img src="<%= campground.image %>"  alt="campground image"  class="card-img-top"/>
+        </div>
+        <!-- <img src="<%= campground.image %>" class="card-img-top" alt="..." /> -->
+
+
         <div class="card-body">
           <h5 class="card-title"><%= campground.title %> </h5>
           <p class="card-text">  <%= campground.description %>   </p>
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item text-muted">            <%= campground.location %>          </li>
-          <li class="list-group-item">            <%= campground.price %>          </li>
-          <li class="list-group-item">A third item</li>
+          <li class="list-group-item">   ₹  <%= campground.price %>   Per Night        </li>
+          <!-- <li class="list-group-item">A third item</li> -->
           </ul>
         <div class="card-body">
           <a class="card-link btn btn-info" href="/campgrounds/<%= campground._id %>/edit"> Edit </a>
