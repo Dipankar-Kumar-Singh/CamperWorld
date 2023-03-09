@@ -87,9 +87,7 @@ Database  : MongoDB 6.0.4
 
 ![App Screenshot]( https://i.ibb.co/jk43Fyp/Index-Page.png )
 
-
 ![App Screenshot](https://i.ibb.co/z27xfLJ/Map-Zoomed.png)
-
 
 ![App Screenshot](https://i.ibb.co/TR7svM4/Index-all-location.png  )
 
