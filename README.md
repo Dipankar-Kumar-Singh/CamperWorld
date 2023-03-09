@@ -82,20 +82,20 @@ Database  : MongoDB 6.0.4
 
 
 ## Screenshots 📷
+
 ![App Screenshot](https://i.ibb.co/ZfPmk2c/Hight-quility-Screen-Short.png  )
 
 ![App Screenshot]( https://i.ibb.co/jk43Fyp/Index-Page.png )
-![App Screenshot](https://i.ibb.co/z27xfLJ/Map-Zoomed.png)
 
+
+![App Screenshot](https://i.ibb.co/z27xfLJ/Map-Zoomed.png)
 
 
 ![App Screenshot](https://i.ibb.co/TR7svM4/Index-all-location.png  )
 
 ![App Screenshot](https://i.ibb.co/kJmh62t/showPage.png)
 
-
 ![App Screenshot](https://i.ibb.co/4VkDmBG/register.png)
-
 
 ![App Screenshot](https://i.ibb.co/DGLXwV0/Login-Page.png)
 
