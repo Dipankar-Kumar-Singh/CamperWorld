@@ -83,7 +83,7 @@ Database  : MongoDB 6.0.4
 
 ## Screenshots 📷
 
-![App Screenshot](https://i.ibb.co/ZfPmk2c/Hight-quility-Screen-Short.png  )
+![App Screenshot](https://i.ibb.co/ZfPmk2c/Hight-quility-Screen-Short.png)
 
 ![App Screenshot]( https://i.ibb.co/jk43Fyp/Index-Page.png )
 
