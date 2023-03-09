@@ -54,6 +54,7 @@ Database  : MongoDB 6.0.4
 **Client:** HTML/CSS/BootStrap , EJS for templating
 
 **Server:** Node, Express , MonogoDB , mongoose , Passport library , JOI library, Mapbox-gl
+
 **Devleopment:** Nodemon, Postman , MongoDB Compass , VS Code , Git , GitHub 
 
 # Features 🔅💎🔅
