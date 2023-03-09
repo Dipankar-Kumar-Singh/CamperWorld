@@ -83,18 +83,12 @@ Database  : MongoDB 6.0.4
 
 ## Screenshots 📷
 
-![App Screenshot](https://i.ibb.co/ZfPmk2c/Hight-quility-Screen-Short.png)
 
-![App Screenshot]( https://i.ibb.co/jk43Fyp/Index-Page.png )
-
-![App Screenshot](https://i.ibb.co/z27xfLJ/Map-Zoomed.png)
-
-![App Screenshot](https://i.ibb.co/TR7svM4/Index-all-location.png  )
-
-![App Screenshot](https://i.ibb.co/kJmh62t/showPage.png)
-
-![App Screenshot](https://i.ibb.co/4VkDmBG/register.png)
-
-![App Screenshot](https://i.ibb.co/DGLXwV0/Login-Page.png)
-
+![App Screenshot](https://i3.lensdump.com/i/T4Yd8K.png)
+![App Screenshot](https://i.lensdump.com/i/T4YVoc.png)
+![App Screenshot](https://i3.lensdump.com/i/T4Yk7k.png)
+![App Screenshot](https://i1.lensdump.com/i/T4YQm1.png)
+![App Screenshot](https://i1.lensdump.com/i/T4YERe.png)
+![App Screenshot](https://i2.lensdump.com/i/T4Y6Fx.png)
+![App Screenshot](https://i.lensdump.com/i/T4YJIH.png)
 
