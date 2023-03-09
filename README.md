@@ -1,5 +1,8 @@
-# CamperWorld
-A Web-Application for Adding places that can be used a camp grounds,resting points,adventure location . This website is designed to provide users with a platform to discover, add, edit, and delete campgrounds around the world. With an interactive map and authentication system, users can leave reviews and ratings for different campgrounds, helping others make informed decisions about their travel plans.
+
+# Camper World
+
+A Web-Application for Adding places that can be used a camp grounds,resting points,adventure location . 
+ This website is designed to provide users with a platform to discover, add, edit, and delete campgrounds around the world. With an interactive map and authentication system, users can leave reviews and ratings for different campgrounds, helping others make informed decisions about their travel plans.
 
 The website is user-friendly, with an easy-to-navigate interface that allows users to search for campgrounds by location, amenities, and rating. Users can also create an account and log in to add their own campgrounds to the site or edit existing ones. The authentication system ensures that only registered users can make changes to the site, maintaining the integrity of the information presented.
 
@@ -9,20 +12,94 @@ One of the unique features of this website is its focus on user-generated conten
 
 In summary, this campground discovery website is a valuable tool for anyone who loves to travel and explore the great outdoors. With its user-friendly interface, interactive map, and focus on user-generated content, it provides a wealth of information for travelers looking to discover new camping destinations.
 
-Please run : 
-```
-npm install 
-```
-Before anything else . 
 
-Features : 
-Error Handling : [ Both Client Side + Server Side ] 
+## Demo
 
+
+## Youtube Demo Link ▶️  https://youtu.be/GZHsrJlQma8
+
+[![](https://markdown-videos.deta.dev/youtube/GZHsrJlQma8)](https://youtu.be/GZHsrJlQma8)
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/Dipankar-Kumar-Singh/CamperWorld
 ```
-a) Client Side --> using HTML and Bootstrap-5 
-B) Server Side --> More Advance ---> 
-    B.1) used Express Middleware and Error Handler 
-    B.2) used Mongoose in-built DataValidatino 
-    B.3) used Joi Library for Extra Layer of Data-Validation Before saving to Monogose . 
+
+Go to the project directory
+
+```bash
+  cd CamperWorld
 ```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  node app
+```
+
+ Optional : Seed the database . 
+```bash
+cd seeds/
+node index.js index2.js index3.js inde43.js
+```
+
+Database  : MongoDB 6.0.4
+
+## Tech Stack ⚒️
+
+**Client:** HTML/CSS/BootStrap , EJS for templating
+
+**Server:** Node, Express , MonogoDB , Passport library , JOI library, Mapbox-gl
+
+
+# Features 🔅💎🔅
+
+- ### Authentication  🔐
+   - Used __Passport library__ for secure authentication 
+   - Password is not sotred as plane text.
+   - __Hashed__ Password is stored in DataBase along with __Salt__ 
+   - Before Performting any data manupulation , user needs to be logeed in 
+-  ### Three 3️⃣ Layer Data Validation
+    #### Client Side 👤 : Bootstrap Validation 
+    #### Server Side ⚙️ : MongoDB DataValidatio + JOI library 
+- ### Interective Map 🗺️
+    - __Cluster Map__ 🌍 on Front Page  
+    - Location Preview 📌 on Individual Display Page
+  
+- ### Forword Geocoding  ➡️ 🌏 ⬅️ 
+    Coordinate 📌 are been geocoded by the simple text location input , Easy to use by user
+
+- ### Dark Mode 😁😄😄
+    Easy On Eyes 
+- ### Live previews
+
+ 
+
+
+## Screenshots 📷
+![App Screenshot](https://i.ibb.co/ZfPmk2c/Hight-quility-Screen-Short.png  )
+
+![App Screenshot]( https://i.ibb.co/jk43Fyp/Index-Page.png )
+![App Screenshot](https://i.ibb.co/z27xfLJ/Map-Zoomed.png)
+
+
+
+![App Screenshot](https://i.ibb.co/TR7svM4/Index-all-location.png  )
+
+![App Screenshot](https://i.ibb.co/kJmh62t/showPage.png)
+
+
+![App Screenshot](https://i.ibb.co/4VkDmBG/register.png)
+
+
+![App Screenshot](https://i.ibb.co/DGLXwV0/Login-Page.png)
+
 
