@@ -9,7 +9,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const LocalSrategy = require("passport-local");
 const passport = require("passport");
-require('dotenv').config();
+// require('dotenv').config();
 
 const MONOGDB_LINK = process.env.DB_CONNECTION_STRING ;
 
