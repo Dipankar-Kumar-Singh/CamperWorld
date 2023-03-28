@@ -9,7 +9,9 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const LocalSrategy = require("passport-local");
 const passport = require("passport");
+require('dotenv').config();
 
+const MONOGDB_LINK = process.env.DB_CONNECTION_STRING ;
 
 /* --------------------------------- ROUTES --------------------------------- */
 const userRoutes = require("./routes/users");
@@ -21,7 +23,7 @@ const reviewsRoutes = require("./routes/reviews");
 /* -------------------------------------------------------------------------- */
 const { User } = require("./models/user");
 
-mongoose.connect("mongodb://127.0.0.1:27017/yelp-camp");
+mongoose.connect(MONOGDB_LINK);
 mongoose.set("strictQuery", false);
 
 const db = mongoose.connection;
