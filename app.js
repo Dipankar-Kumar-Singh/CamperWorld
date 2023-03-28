@@ -121,6 +121,9 @@ app.listen(3000, () => {
     console.log("Server is Running on PORT 3000");
 });
 
+
+module.exports = app ;
+
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  / forget  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 // Note : Always get/post path start from '/' symball ..
 //[ very common mistake to forget to add / before any path in get/post request ]
