@@ -12,7 +12,10 @@ const MY_ACCESS_TOKEN = 'pk.eyJ1IjoidGVhLWRldiIsImEiOiJjbGV4b2VxcmsybHl4M3VydjY3
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const geoCoder = mbxGeocoding({ accessToken: MY_ACCESS_TOKEN });
 
-mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp' );
+const MONGODB_URL = 'mongodb://127.0.0.1:27017/yelp-camp' ;
+
+mongoose.connect(MONGODB_URL);
+
 mongoose.set('strictQuery', false);
 
 const db = mongoose.connection ;
@@ -24,7 +27,7 @@ db.once('open' , () => {
 const sample = array => array[Math.floor(Math.random() * array.length)] ;
 
 const seedDB = async () => {
-    for(let i = 0 ; i < 500 ; i++)
+    for(let i = 0 ; i < 100 ; i++)
     {
         const random1000 = Math.floor(Math.random() * 1000);
         const LOCATION = `${cities[random1000].city}, ${cities[random1000].state}` ;

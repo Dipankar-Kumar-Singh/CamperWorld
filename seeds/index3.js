@@ -15,6 +15,7 @@ const cities = worldCities;
 
 const geoCoder = mbxGeocoding({ accessToken: MY_ACCESS_TOKEN });
 
+
 mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp');
 mongoose.set('strictQuery', false);
 
@@ -32,7 +33,7 @@ const seedDB = async () => {
     // const c = new Campground({ title: "Purple Field" }) ;
     // await c.save();
 
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 100; i++) {
         const random1000 = Math.floor(Math.random() * 1000);
         const LOCATION = `${cities[random1000].name}, ${cities[random1000].state_name}`;
 

@@ -12,6 +12,7 @@ const passport = require("passport");
 // require('dotenv').config();
 
 const MONOGDB_LINK = process.env.DB_CONNECTION_STRING ;
+const MONGODB_LOCAL_URL = 'mongodb://127.0.0.1:27017/yelp-camp' ;
 
 /* --------------------------------- ROUTES --------------------------------- */
 const userRoutes = require("./routes/users");

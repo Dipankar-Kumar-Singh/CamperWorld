@@ -15,11 +15,13 @@ const geoCoder = mbxGeocoding({ accessToken: MY_ACCESS_TOKEN });
 
 const { citiesData } = require('./Data/famousWorldCities');
 const { array } = require('joi');
-const { chinaCity } = require('./Data/chinaCities');
+// const { chinaCity } = require('./Data/chinaCities');
 // const cities = citiesData;
 // const geoCoder = mbxGeocoding({ accessToken: MY_ACCESS_TOKEN });
 
-mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp');
+const MONGODB___URL = 'mongodb://127.0.0.1:27017/yelp-camp' ;
+
+mongoose.connect(MONGODB___URL);
 mongoose.set('strictQuery', false);
 
 const db = mongoose.connection;
@@ -49,7 +51,7 @@ async function saveData(element) {
 }
 const seedDB = async () => {
     citiesData.forEach(saveData);
-    chinaCity.forEach(saveDataBYGEOLOC_MAPBOX);
+    // chinaCity.forEach(saveDataBYGEOLOC_MAPBOX);
 };
 
 seedDB().then(() => {
