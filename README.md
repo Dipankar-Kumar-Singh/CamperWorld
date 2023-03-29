@@ -52,28 +52,31 @@ Database  : MongoDB 6.0.4
 
 ## Tech Stack ⚒️
 
-**Client:** HTML/CSS/BootStrap , EJS for templating
+**Client:** HTML/CSS/BootStrap, EJS for templating
 
-**Server:** Node, Express , MonogoDB , mongoose , Passport library , JOI library, Mapbox-gl
+**Server:** Node, Express, MongoDB , mongoose, Passport library, JOI library, Mapbox-gl
 
-**Devleopment:** Nodemon, Postman , MongoDB Compass , VS Code , Git , GitHub 
+**Development:** Nodemon, Postman, MongoDB Compass, VS Code, Git, GitHub 
 
 # Features 🔅💎🔅
 
 - ### Authentication  🔐
    - Used __Passport library__ for secure authentication 
-   - Password is not sotred as plane text.
-   - __Hashed__ Password is stored in DataBase along with __Salt__ 
-   - Before Performting any data manupulation , user needs to be logeed in 
+   - Password is not 🚫 stored as plain text.
+   - __Hashed__ Password 🔑 is stored in DataBase along with __Salt__ 🧂 
+   - Before Performing any data manipulation, the user needs to be logged in 🪪 
 -  ### Three 3️⃣ Layer Data Validation
     #### Client Side 👤 : Bootstrap Validation 
     #### Server Side ⚙️ : MongoDB DataValidatio + JOI library 
-- ### Interective Map 🗺️
+- ### Interactive Map 🗺️
     - __Cluster Map__ 🌍 on Front Page  
     - Location Preview 📌 on Individual Display Page
   
 - ### Forword Geocoding  ➡️ 🌏 ⬅️ 
-    Coordinate 📌 are been geocoded by the simple text location input , Easy to use by user
+    Coordinate 📌 are been geocoded by the simple text location input, Easy to use by the user
+
+    Forwrod Geocoding : 
+    Forward geocoding is the process of converting a location description, such as a street address or city name, into geographic coordinates that can be used to plot the location on a map. In the Camper World web development project, I implemented forward geocoding to make it easier for users to add campground locations to the database.
 
 - ### Dark Mode 😁😄😄
     Easy On Eyes 
