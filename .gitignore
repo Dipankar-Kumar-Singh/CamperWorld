@@ -1,2 +1,12 @@
 .env
-node_modules/
+node_modules
+package-lock.json
+*.log
+*.gz
+
+# Coveralls
+.nyc_output
+coverage
+
+# Benchmarking
+benchmarks/graphs
